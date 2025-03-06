@@ -8,7 +8,7 @@
     "php",
     "sysV",
     "IPC",
-    "PSR/Cache",
+    "PSR_Cache",
     "Cache"
   ],
   "autoload": {
