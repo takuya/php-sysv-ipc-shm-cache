@@ -55,7 +55,7 @@ class SysvShmCache implements CacheInterface {
     });
   }
   
-  protected function reset():bool {
+  protected function clear():bool {
     return $this->mem->clear();
   }
   
@@ -102,7 +102,7 @@ class SysvShmCache implements CacheInterface {
   }
   
   #[\Override] public function flush():bool {
-    return $this->reset();
+    return $this->clear();
   }
   
   #[\Override] public function getMultiple( iterable $keys, mixed $default = null ):iterable {
