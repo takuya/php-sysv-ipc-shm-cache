@@ -33,7 +33,7 @@
   ],
   "require": {
     "ext-sysvshm": "*",
-    "takuya/php-sysv-ipc-shared-memory": "*",
+    "takuya/php-sysv-ipc-shared-memory": "^0.3",
     "psr/simple-cache": "^3.0"
   },
   "require-dev": {
