@@ -44,7 +44,7 @@ jobs:
           $uniq_name = 'shm_name';
           $cache = new SysvShmCache($uniq_name);
           $cache->set('keyA','message');
-          $ret = $cache->get('keyB');
+          $ret = $cache->get('keyA');
           $cache->destroy();
           var_dump( $ret == 'message');
           EOS
