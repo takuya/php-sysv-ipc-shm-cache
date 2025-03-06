@@ -55,7 +55,7 @@ class SysvShmCache implements CacheInterface {
     });
   }
   
-  protected function clear():bool {
+  protected function reset():bool {
     return $this->mem->clear();
   }
   
@@ -85,27 +85,31 @@ class SysvShmCache implements CacheInterface {
   /////////////////////////////////////////////
   /// -- Override Methods
   /////////////////////////////////////////////
-  #[\Override] public function has( string $key ):bool {
+  public function has( string $key ):bool {
     return $this->exists($key);
   }
   
-  #[\Override] public function get( string $key, mixed $default = null ):mixed {
+  public function get( string $key, mixed $default = null ):mixed {
     return $this->retrieve($key)['body'] ?? $default;
   }
   
-  #[\Override] public function set( string $key, mixed $value, \DateInterval|int|null $ttl = null ):bool {
+  public function set( string $key, mixed $value, \DateInterval|int|null $ttl = null ):bool {
     return $this->update($key, $this->cacheEntry($value, $ttl));
   }
   
-  #[\Override] public function delete( string $key ):bool {
+  public function delete( string $key ):bool {
     return $this->remove($key);
   }
   
-  #[\Override] public function flush():bool {
+  public function flush():bool {
     return $this->clear();
   }
   
-  #[\Override] public function getMultiple( iterable $keys, mixed $default = null ):iterable {
+  public function clear():bool {
+    return $this->reset();
+  }
+  
+  public function getMultiple( iterable $keys, mixed $default = null ):iterable {
     return $this->mem->run(function () use ( $keys, $default ) {
       $this->prune();
       $items = $this->mem->all();
@@ -118,7 +122,7 @@ class SysvShmCache implements CacheInterface {
     });
   }
   
-  #[\Override] public function setMultiple( iterable $values, \DateInterval|int|null $ttl = null ):bool {
+  public function setMultiple( iterable $values, \DateInterval|int|null $ttl = null ):bool {
     return $this->mem->run(function () use ( $values, $ttl ) {
       $this->prune();
       $items = $this->mem->all();
@@ -130,7 +134,7 @@ class SysvShmCache implements CacheInterface {
     });
   }
   
-  #[\Override] public function deleteMultiple( iterable $keys ):bool {
+  public function deleteMultiple( iterable $keys ):bool {
     return $this->mem->run(function () use ( $keys ) {
       $this->prune();
       $items = $this->mem->all();
