@@ -3,7 +3,6 @@
 namespace Tests\Units\SysvIPC\SimpleCache;
 
 use Tests\TestCase;
-use http\Message\Body;
 use Takuya\SysV\IPC\Cache\SysvShmCache;
 use function Takuya\Helpers\str_rand;
 

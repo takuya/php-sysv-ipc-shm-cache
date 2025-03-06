@@ -36,16 +36,16 @@ jobs:
         shell: bash
         run: |
           php -v
-          composer require takuya/php-sysv-ipc-shared-memory
+          composer require takuya/php-sysv-ipc-shm-cache
           cat <<'EOS' > sample.php
           <?php
           require_once 'vendor/autoload.php';
-          use Takuya\SysV\IPCSharedMem;
+          use Takuya\SysV\IPC\Cache\SysvShmCache;
           $uniq_name = 'shm_name';
-          $shm = new IPCSharedMem($uniq_name);
-          $shm->put('message');
-          $shm->get();
-          $ret = $shm->destroy();
+          $cache = new SysvShmCache($uniq_name);
+          $cache->set('keyA','message');
+          $ret = $cache->get('keyB');
+          $cache->destroy();
           var_dump( $ret == 'message');
           EOS
           cat sample.php
