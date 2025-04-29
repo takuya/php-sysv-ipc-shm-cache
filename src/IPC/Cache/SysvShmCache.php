@@ -48,7 +48,7 @@ class SysvShmCache implements CacheInterface {
   }
   
   protected function retrieve( $key ) {
-    return $this->mem->run(function () use ( $key ) {
+    return $this->mem->runWithLock(function () use ( $key ) {
       $this->prune();
       
       return $this->mem->get($key);
@@ -71,7 +71,7 @@ class SysvShmCache implements CacheInterface {
    * @return bool
    */
   public function prune():bool {
-    return $this->mem->run(function ():bool {
+    return $this->mem->runWithLock(function ():bool {
       $items = $this->mem->all();
       $items = array_filter($items, fn( $e ) => ! $this->isExpired($e));
       
@@ -110,7 +110,7 @@ class SysvShmCache implements CacheInterface {
   }
   
   public function getMultiple( iterable $keys, mixed $default = null ):iterable {
-    return $this->mem->run(function () use ( $keys, $default ) {
+    return $this->mem->runWithLock(function () use ( $keys, $default ) {
       $this->prune();
       $items = $this->mem->all();
       $result = [];
@@ -123,7 +123,7 @@ class SysvShmCache implements CacheInterface {
   }
   
   public function setMultiple( iterable $values, \DateInterval|int|null $ttl = null ):bool {
-    return $this->mem->run(function () use ( $values, $ttl ) {
+    return $this->mem->runWithLock(function () use ( $values, $ttl ) {
       $this->prune();
       $items = $this->mem->all();
       foreach ($values as $value) {
@@ -135,7 +135,7 @@ class SysvShmCache implements CacheInterface {
   }
   
   public function deleteMultiple( iterable $keys ):bool {
-    return $this->mem->run(function () use ( $keys ) {
+    return $this->mem->runWithLock(function () use ( $keys ) {
       $this->prune();
       $items = $this->mem->all();
       foreach ($keys as $key) {
