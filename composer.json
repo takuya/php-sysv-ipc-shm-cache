@@ -21,6 +21,7 @@
     },
     "files": [
       "tests/helper/str_rand.php",
+      "tests/helper/proc_fork.php",
       "tests/helper/temp_dir.php"
     ]
   },

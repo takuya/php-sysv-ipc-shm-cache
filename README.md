@@ -31,6 +31,19 @@ $cache->get($key);
 $cache->delete($key);
 ```
 
+## Muti Process for Update
+Update read/write at once which called by get() then set(), use locking.
+```php
+<?php
+$cache = new SysvShmCache($cache_name);
+$key = 'key';
+$cache->runWithLock(function($cache)use($key,$idx){
+  $cache->set($key, $cache->get($key) + 10 );
+});
+// without locking,can be dirty read.
+$cache->set($key, $cache->get($key) + 10 );
+```
+
 ### 'psr/simple-cache' are used.
 
 This package is implementation of `psr/simple-cache` into Shared Memory (`shm_xxx`).
