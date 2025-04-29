@@ -9,7 +9,6 @@ use function Takuya\Helpers\child_fork;
 
 class MultiProcessSharedCacheTest extends TestCase {
   
-  
   public function test_interlock_cache_by_2_process() {
     foreach (array_fill(0, 100, null) as $_cnt => $n) {
       $cpids = [];

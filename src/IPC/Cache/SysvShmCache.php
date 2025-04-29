@@ -13,7 +13,11 @@ class SysvShmCache implements CacheInterface {
   protected IPCShmKeyStore $mem;
   
   public function __construct( public string $name, protected int $size = 1024*1024, protected int $perm = 0770 ) {
-    $this->mem = new IPCShmKeyStore($this->name, $this->size, $this->perm);
+    try {
+      $this->mem = new IPCShmKeyStore($this->name, $this->size, $this->perm);
+    } catch (\Error $err) {
+      throw new SysvShmCacheException($err->getMessage());
+    }
   }
   
   public function destroy():bool {

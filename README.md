@@ -31,7 +31,7 @@ $cache->get($key);
 $cache->delete($key);
 ```
 
-## Muti Process for Update
+## Safer Update Value for Multi Process.
 Update read/write at once which called by get() then set(), use locking.
 ```php
 <?php
@@ -40,7 +40,8 @@ $key = 'key';
 $cache->runWithLock(function($cache)use($key,$idx){
   $cache->set($key, $cache->get($key) + 10 );
 });
-// without locking,can be dirty read.
+
+// without locking, this can be dirty read.
 $cache->set($key, $cache->get($key) + 10 );
 ```
 
